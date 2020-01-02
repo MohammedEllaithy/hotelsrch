@@ -1,0 +1,73 @@
+<div class="container" style="margin-bottom:20px;padding-top:20px;">
+    <div class="row">
+        <div class="col-sm-12 btn btn-success">
+            Hotels's Information
+        </div>
+
+    </div>
+    <div class="col-sm-12" style="margin-bottom:20px;padding-top:20px;">
+        <div class="row">
+            <div class="col-sm-6">
+
+                <div class="form-group">
+            <label >from:</label>
+            <input type="date" name="bday" max="3000-12-31" 
+                   min="1000-01-01" class="form-control">
+           </div>
+           <div class="form-group">
+            <label >To:</label>
+            <input type="date" name="bday" min="1000-01-01"
+                   max="3000-12-31" class="form-control">
+           </div>
+        </div>  
+ 
+                <div class="col-sm-6">
+                    <input class="form-control" type="text" name="search" [(ngModel)]="filter"
+                        placeholder="Search Hotel Name">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding-top:20px;">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <!-- <th>Name</th> -->
+                <th [class.active]="order === 'name'" (click)="setOrder('name')"
+                    class="mdl-data-table__cell--non-numeric"> Name <span [hidden]="reverse">▼</span><span
+                        [hidden]="!reverse">▲</span>
+                </th>
+                <!-- <th>Price</th> -->
+                <th [class.active]="order === 'price'" (click)="setOrder('price')">
+                    Price <span [hidden]="reverse">▼</span>
+                    <span [hidden]="!reverse">▲</span>
+                </th>
+                <th>City</th>
+                <th>from: to</th>
+                <th>from: to</th>
+                <th>from: to</th>
+            </thead>
+            <tbody>
+
+                <tr
+                    *ngFor="let h of hot.hotels |filter:filter | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: 4, currentPage: p } ">
+
+
+                    <td>{{h.name}}</td>
+                    <td>{{h.price}}</td>
+                    <td>{{h.city}}</td>
+                    <td *ngFor="let avail of h.availability">
+                        <div class="row btn-group">
+                            <div class="btn btn-success"> <b> {{avail.from}} </b> </div>
+                            <div class="btn btn-danger"> <b> {{avail.to}} </b> </div>
+                        </div>
+
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
+        <ul class="pagination">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+    </div>
